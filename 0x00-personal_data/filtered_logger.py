@@ -6,11 +6,12 @@ from typing import List
 
 
 def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str):
+                 message: str, separator: str) -> str:
     """Returns an obfuscated logline"""
-    pattern = '|'.join([f'{field}=[^{separator}]*' for field in fields])
-    return re.sub(pattern, lambda match:
-                  f'{match.group(0).split("=")[0]}={redaction}', message)
+    for field in fields:
+        res = re.sub(rf'{field}=[^{separator}]*',
+                     f'{field}={redaction}', message)
+    return res
 
 
 class RedactingFormatter(logging.Formatter):
