@@ -5,7 +5,6 @@ import logging
 from typing import List
 import os
 import mysql.connector
-from mysql.connector import MySQLConnection
 
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password',)
@@ -52,7 +51,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Returns a connector to the database"""
     host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
     database = os.environ.get("PERSONAL_DATA_DB_NAME")
@@ -63,7 +62,7 @@ def get_db() -> MySQLConnection:
         database=database,
         user=user,
         port=3306,
-        password=password
+        password=password,
     )
     return connection
 
