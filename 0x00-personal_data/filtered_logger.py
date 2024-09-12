@@ -45,3 +45,4 @@ def get_logger() -> logging.Logger:
     file_handler.setFormatter(formatter)
 
     logger.addHandler(file_handler)
+    return logger
