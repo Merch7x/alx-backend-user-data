@@ -64,3 +64,19 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         password=pas
     )
     return connection
+
+
+def main() -> None:
+    """Retrives and filter data"""
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM users")
+    result = cursor.fetchall()
+
+    for row in result:
+        frow = filter_datum(PII_FIELDS, "***", row, ";")
+        print(frow)
+    cursor.close()
+
+
+if __name__ == '__main__':
+    main()
