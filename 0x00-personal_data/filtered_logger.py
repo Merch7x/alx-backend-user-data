@@ -2,6 +2,7 @@
 """filters personal information in logs"""
 import re
 import logging
+from typing import List
 
 
 def filter_datum(fields, redaction, message, separator):
@@ -21,7 +22,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: list[str]):
+    def __init__(self, fields: List[str]):
         """Object initialiser"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
