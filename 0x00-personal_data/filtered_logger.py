@@ -6,6 +6,6 @@ import re
 def filter_datum(fields: list[str], redaction: str,
                  message: str, separator: str) -> str:
     """Returns an obfuscated logline"""
-    for field in fields:
-      message = re.sub(rf'{field}=[^{separator}]*', f'{field}={redaction}', message)
-    return message
+    pattern = '|'.join([f'{field}=[^{separator}]*' for field in fields])
+    return re.sub(pattern, lambda match:
+                  f'{match.group(0).split("=")[0]}={redaction}', message)
