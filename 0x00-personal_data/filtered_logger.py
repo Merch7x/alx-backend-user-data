@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""filters logs"""
+"""filters personal information in logs"""
 import re
 
 
-def filter_datum(fields: list[str], redaction: str,
-                 message: str, separator: str) -> str:
+def filter_datum(fields, redaction, message, separator):
     """Returns an obfuscated logline"""
     pattern = '|'.join([f'{field}=[^{separator}]*' for field in fields])
     return re.sub(pattern, lambda match:
