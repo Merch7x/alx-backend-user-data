@@ -8,15 +8,13 @@ from typing import List
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Returns an obfuscated logline"""
-    for field in fields:
-        res = re.sub(rf'{field}=[^{separator}]*',
-                     f'{field}={redaction}', message)
-    return res
+    pattern = '|'.join([f'{field}=[^{separator}]*' for field in fields])
+    return re.sub(pattern, lambda match:
+                  f'{match.group(0).split("=")[0]}={redaction}', message)
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
+    """ Redacting Formatter class"""
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
