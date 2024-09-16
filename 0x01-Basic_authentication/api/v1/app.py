@@ -34,10 +34,10 @@ def filter_request():
     if not auth.require_auth(request.path, no_auth):
         return
 
-    if auth.authorization_header() is None:
+    if auth.authorization_header(request) is None:
         raise abort(401)
 
-    if auth.current_user() is None:
+    if auth.current_user(request) is None:
         raise abort(403)
 
 

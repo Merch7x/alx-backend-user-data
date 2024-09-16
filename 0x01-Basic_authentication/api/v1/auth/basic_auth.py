@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Handle authentication to a server
   with an encode byte string of 
   a password and User

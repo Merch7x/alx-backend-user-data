@@ -26,7 +26,7 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """Sets the authentication header with
-          username and passowrd encoded string
+          username and password encoded string
         """
         if request is None or request.headers.get("Authorization") is None:
             return None
@@ -35,8 +35,3 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """Defines current user"""
         return None
-
-
-class BasicAuth(Auth):
-    """Handle basic authentication to the server"""
-    pass
