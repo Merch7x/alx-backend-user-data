@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Create a class to handle authentication"""
 from flask import request
 from typing import List, TypeVar
@@ -27,8 +28,15 @@ class Auth:
         """Sets the authentication header with
           username and passowrd encoded string
         """
-        return None
+        if request is None or request.headers.get("Authorization") is None:
+            return None
+        return request.headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Defines current user"""
         return None
+
+
+class BasicAuth(Auth):
+    """Handle basic authentication to the server"""
+    pass
