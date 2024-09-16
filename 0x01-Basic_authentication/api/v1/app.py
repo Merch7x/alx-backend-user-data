@@ -31,13 +31,13 @@ def filter_request():
     no_auth = ['/api/v1/status/', '/api/v1/unauthorized/',
                '/api/v1/forbidden/']
 
-    if auth.require_auth(request.path, no_auth) == False:
+    if not auth.require_auth(request.path, no_auth):
         return
 
-    if auth.authorization_header() == None:
+    if auth.authorization_header() is None:
         raise abort(401)
 
-    if auth.current_user() == None:
+    if auth.current_user() is None:
         raise abort(403)
 
 
