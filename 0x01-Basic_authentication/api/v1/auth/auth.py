@@ -18,15 +18,17 @@ class Auth:
 
         n_path = path.rstrip('/')
 
-        n_e_p = [p.rstrip('/') for p in excluded_paths]
-        if n_path not in n_e_p:
-            return True
+        patterns = [re.compile(f"^ {re.escape(p.rstrip('/')).replace(
+            r'\*', '.*')} /?$") for p in excluded_paths]
 
-        return False
+        for pattern in patterns:
+            if pattern.match(n_path):
+                return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
-        """Sets the authentication header with
-          username and password encoded string
+        """ Retrives the authentication header
         """
         if request is None or request.headers.get("Authorization") is None:
             return None
