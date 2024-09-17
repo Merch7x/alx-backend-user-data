@@ -14,7 +14,7 @@ class BasicAuth(Auth):
 
     def extract_base64_authorization_header(
             self, authorization_header: str) -> str:
-        """returns a base64 parth of the auth header"""
+        """returns a base64 part of the auth header"""
         if authorization_header is None or not isinstance(
                 authorization_header, str):
             return None
@@ -76,3 +76,13 @@ class BasicAuth(Auth):
                 return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """"overloads Auth and retrieves the User instance for a request:"""
+        header = self.authorization_header(request)
+        ext_header = self.extract_base64_authorization_header(header)
+        decoded_header = self.decode_base64_authorization_header(ext_header)
+        user_creds = self.extract_user_credentials(decoded_header)
+        email, passwrd = user_creds
+        user = self.user_object_from_credentials(email, passwrd)
+        return user
