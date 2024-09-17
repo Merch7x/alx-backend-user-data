@@ -5,7 +5,8 @@ with an encode byte string of
 """
 from api.v1.auth.auth import Auth
 import base64
-from typing import Tuple
+from typing import Tuple, TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -52,3 +53,20 @@ class BasicAuth(Auth):
             return (None, None)
         email, passwd = h_list
         return (email, passwd)
+
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        """ returns the User instance based on his email and password."""
+        if user_email is None or not isinstance(user_email, str):
+            return None
+
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+
+        user = User.search({"email": user_email})
+        if not user:
+            return None
+
+        if not user[0].is_valid_password(user_pwd):
+            return None
+        return user[0]
