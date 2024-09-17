@@ -2,6 +2,7 @@
 """Create a class to handle authentication"""
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
@@ -18,8 +19,12 @@ class Auth:
 
         n_path = path.rstrip('/')
 
-        patterns = [re.compile(f"^ {re.escape(p.rstrip('/')).replace(
-            r'\*', '.*')} /?$") for p in excluded_paths]
+        patterns = []
+        for p in excluded_paths:
+            escaped_path = re.escape(p.rstrip('/'))
+            regex_pattern = escaped_path.replace(r'\*', '.*')
+            regex_pattern = f"^{regex_pattern}/?$"
+            patterns.append(re.compile(regex_pattern))
 
         for pattern in patterns:
             if pattern.match(n_path):
