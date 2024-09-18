@@ -24,9 +24,18 @@ def login():
     if not user[0].is_valid_password(passwd):
         return jsonify({"error": "wrong password"}), 401
 
-    from api.v1.auth.session_auth import SessionAuth
-    session = SessionAuth()
-    session.create_session(user[0].id)
+    from api.v1.app import auth
+    auth.create_session(user[0].id)
 
     authed_user = jsonify(user[0].to_json())
     return authed_user
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """Logout a user by deleting saved session"""
+    from api.v1.app import auth
+    destroy_sesh = auth.destroy_session(request)
+    if destroy_sesh is False:
+        abort(404)
+    return {}, 200

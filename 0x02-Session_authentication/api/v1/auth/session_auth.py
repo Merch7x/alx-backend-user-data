@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Working on session based authentication"""
 from api.v1.auth.auth import Auth
 import uuid
@@ -29,3 +30,17 @@ class SessionAuth(Auth):
         user_id = self.user_id_for_session_id(cookie)
         user = User.get(user_id)
         return user
+
+    def destroy_session(self, request=None):
+        """Delete the user session/logout"""
+        if request is None:
+            return False
+
+        cookie = self.session_cookie(request)
+        if not cookie:
+            return False
+        if not self.user_id_for_session_id(cookie):
+            return False
+
+        del self.user_id_by_session_id[cookie]
+        return True
