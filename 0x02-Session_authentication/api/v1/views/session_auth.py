@@ -3,6 +3,7 @@
 from api.v1.views import app_views
 from models.user import User
 from flask import request, abort, jsonify
+from os import getenv
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -25,13 +26,15 @@ def login():
         return jsonify({"error": "wrong password"}), 401
 
     from api.v1.app import auth
-    auth.create_session(user[0].id)
+    session_id = auth.create_session(user[0].id)
 
     authed_user = jsonify(user[0].to_json())
+    authed_user.set_cookie(f"{getenv('SESSION_NAME')}", session_id)
     return authed_user
 
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
 def logout():
     """Logout a user by deleting saved session"""
     from api.v1.app import auth
