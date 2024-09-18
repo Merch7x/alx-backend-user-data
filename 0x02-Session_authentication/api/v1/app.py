@@ -39,6 +39,8 @@ def filter_request():
 
     if auth.current_user(request) is None:
         raise abort(403)
+    else:
+        request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)
