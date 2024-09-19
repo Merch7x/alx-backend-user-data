@@ -2,7 +2,7 @@
 """Work on timeouts for sessions"""
 from api.v1.auth.session_auth import SessionAuth
 from os import getenv
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 class SessionExpAuth(SessionAuth):
@@ -26,7 +26,7 @@ class SessionExpAuth(SessionAuth):
             return None
         session_dictionary = {
             "user_id": user_id,
-            "created_at": datetime.now()
+            "created_at": datetime.now(timezone.utc)
         }
         super().user_id_by_session_id[sesh_id] =\
             session_dictionary
@@ -47,6 +47,6 @@ class SessionExpAuth(SessionAuth):
         exp_time = session_dict.get("created_at") +\
             timedelta(seconds=self.session_duration)
 
-        if datetime.now() > exp_time:
+        if datetime.now(timezone.utc) > exp_time:
             return None
         return session_dict.get("user_id")
