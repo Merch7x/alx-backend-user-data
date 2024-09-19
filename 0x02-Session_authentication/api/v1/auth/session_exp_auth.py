@@ -2,7 +2,7 @@
 """Work on timeouts for sessions"""
 from api.v1.auth.session_auth import SessionAuth
 from os import getenv
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 class SessionExpAuth(SessionAuth):
