@@ -31,15 +31,15 @@ class SessionDBAuth(SessionExpAuth):
         user_id = self.user.search({"session_id": session_id})
         return user_id[0]
 
-    def destroy_session(self, request=None):
-        """
-        Destroys the UserSession
-        based on the Session ID from the request cookie
-        """
-        # if request is None:
-        #     return False
-        cookie = request.cookies.get(getenv("SESSION_NAME"))
+    # def destroy_session(self, request=None):
+    #     """
+    #     Destroys the UserSession
+    #     based on the Session ID from the request cookie
+    #     """
+    #     # if request is None:
+    #     #     return False
+    #     cookie = request.cookies.get(getenv("SESSION_NAME"))
 
-        if cookie == self.user.session_id:
-            user_id = self.user.id
-            self.user.remove(user_id)
+    #     if cookie == self.user.session_id:
+    #         user_id = self.user.id
+    #         self.user.remove(user_id)

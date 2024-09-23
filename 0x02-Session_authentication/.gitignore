@@ -1,4 +1,4 @@
 __pycache__
 venv/
 main_*
-.db_User.json
+.db*
