@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -45,7 +45,6 @@ class DB:
 
     def find_user_by(self, **kwargs) -> str:
         """Find a user using a keyword"""
-        session = self._session
         try:
             res = self._session.query(User).\
                 filter_by(**kwargs).one()
