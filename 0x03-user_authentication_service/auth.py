@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """An authentication mechanism"""
-from bcrypt import hashpw, gensalt
+from bcrypt import hashpw, gensalt, checkpw
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
@@ -30,3 +30,16 @@ class Auth:
             hashed_passwrd = _hash_password(password)
             res = self._db.add_user(email, hashed_passwrd)
             return res
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Credentials validation"""
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                if checkpw(password.encode('utf-8'),
+                           user.hashed_password) is True:
+                    return True
+                else:
+                    return False
+        except NoResultFound:
+            return False
