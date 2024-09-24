@@ -44,16 +44,16 @@ class DB:
         session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> str:
+    def find_user_by(self, **kwargs) -> User:
         """Find a user using a keyword"""
         try:
             res = self._session.query(User).\
-                filter_by(**kwargs).one()
+                filter_by(**kwargs).first()
             return res
         except NoResultFound:
-            raise NoResultFound
+            return None
         except InvalidRequestError:
-            raise InvalidRequestError
+            return None
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a users information"""
