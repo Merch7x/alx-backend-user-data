@@ -99,5 +99,6 @@ class Auth:
             raise ValueError
 
         pass_hash = _hash_password(password)
+        user_id = int(user.id)
         self._db.update_user(
-            user.id, hashed_password=pass_hash, reset_token=None)
+            user_id, hashed_password=pass_hash, reset_token=None)
