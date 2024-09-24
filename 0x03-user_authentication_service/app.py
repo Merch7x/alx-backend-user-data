@@ -50,11 +50,13 @@ def login():
 def logout():
     """Logs out a user"""
     cookie = request.cookies.get("session_id")
+    if not cookie:
+        return abort(403)
     user = AUTH.get_user_from_session_id(cookie)
     if user:
         AUTH.destroy_session(user.id)
-        redirect('/')
-    abort(403)
+        return redirect('/')
+    return abort(403)
 
 
 if __name__ == "__main__":
