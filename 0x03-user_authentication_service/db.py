@@ -48,7 +48,7 @@ class DB:
         """Find a user using a keyword"""
         try:
             res = self._session.query(User).\
-                filter_by(**kwargs).first()
+                filter_by(**kwargs).one()
             return res
         except NoResultFound:
             raise NoResultFound
