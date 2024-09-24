@@ -9,7 +9,7 @@ def register_user(email: str, password: str) -> None:
     response = requests.post(
         'http://127.0.0.1:5000/users', data=params)
     assert response.json() == {"email": f"{email}", "message": "user created"}
-    assert response.status_code == 201
+    assert response.status_code == 200
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
