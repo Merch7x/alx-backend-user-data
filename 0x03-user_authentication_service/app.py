@@ -97,6 +97,10 @@ def reset_password():
     email = request.form.get("email")
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
+    session = AUTH.create_session(email)
+    if not session:
+        return abort(403)
+
     try:
         AUTH.update_password(reset_token, new_password)
         return jsonify(
