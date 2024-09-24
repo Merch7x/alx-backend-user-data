@@ -51,9 +51,9 @@ class DB:
                 filter_by(**kwargs).first()
             return res
         except NoResultFound:
-            return None
+            raise NoResultFound
         except InvalidRequestError:
-            return None
+            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a users information"""
